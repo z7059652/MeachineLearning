@@ -1,0 +1,36 @@
+package TestJava;
+
+public class TestJava
+{
+
+	public static void main(String[] args)
+	{
+		// TODO Auto-generated method stub
+		String name = "zhu";
+		System.out.println(name+"hellow world\n");
+	}
+
+}
+
+		// 开始训练
+//		for (int i = 0; i < CATEGORIES.length; i++)
+//		{
+//			File classDir = new File(TDIR, CATEGORIES[i]);
+//			if (!classDir.isDirectory())
+//			{
+//				System.out.println("不能找到目录=" + classDir);
+//			}
+//			// 训练器遍历分类文件夹下的所有文件
+//			for (File file : classDir.listFiles())
+//			{
+//				String text = Files.readFromFile(file, "utf-8");
+////				file.getPath();
+////				String str = Files.readAllLines(file.getPath(), "utf-8");
+////				Files.r
+//				System.out.println("正在训练 " + CATEGORIES[i] + file.getName());
+//				Classification classification = new Classification(CATEGORIES[i]);
+//				Classified<CharSequence> classified = new Classified<CharSequence>(text, classification);
+//				classifier.handle(classified);
+//			} 
+//		}	
+		

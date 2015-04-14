@@ -1,0 +1,74 @@
+package TestJava;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.text.NumberFormat;
+
+import com.aliasi.classify.*;
+
+
+public class TestTClassifier
+{
+	private static String[] CATEGORIES = { "negative","positive"};
+	private static String[] Path  = {"D:\\visual studio 2013\\Projects\\TextDeal\\Sentiment\\test.label.cn.negative1.txt","D:\\visual studio 2013\\Projects\\TextDeal\\Sentiment\\test.label.cn.positive.txt"};
+	private static String[] Split = {">","Q"};
+	public ScoredClassifier<String> compiledClassifier = null;
+	public TestTClassifier()
+	{
+		
+	}
+	public void Test() throws ClassNotFoundException, IOException
+	{
+		// TODO 自动生成的方法存根
+		//分类器模型存放地址  
+
+        
+     // 遍历分类目录中的文件测试分类准确度  
+        ConfusionMatrix confMatrix = new ConfusionMatrix(CATEGORIES);  
+        NumberFormat nf = NumberFormat.getInstance();  
+        nf.setMaximumIntegerDigits(1);  
+        nf.setMaximumFractionDigits(3);  
+        int[] ncount = new int[2];
+        int[] uncorrect = new int[2];
+        for(int j = 0;j < Path.length;j++)
+        {
+			File file = new File(Path[j]);
+			if(!file.exists() || file.isDirectory())
+				throw new FileNotFoundException();
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String temp=null;
+	        StringBuffer sb=new StringBuffer();
+	        temp=br.readLine();
+	        while(temp!=null)
+	        {
+				temp=br.readLine();
+				sb.append(temp);				
+	        }
+	        br.close();
+	        String[] strarray = sb.toString().split(">");
+	        System.out.println(CATEGORIES[j] + "：总长度为：" +strarray.length);
+//	        String text = "根本不是MTV，都是演唱会版本，VCD画质，不值，千万别买！";
+//	        int ncount = 0;
+	        for (int i = 0;i<strarray.length;i++)
+	        {  
+	            ScoredClassification classification = compiledClassifier.classify(strarray[i]);  //.subSequence(0, strarray[i].length())
+	            confMatrix.increment(CATEGORIES[j], classification.bestCategory());  
+//	            System.out.println("最适合的分类: " +strarray[i]+": " +classification.bestCategory());  
+	            if(classification.bestCategory().contains(CATEGORIES[j]))
+	            {
+	            	ncount[j]++;
+	            }
+	            if(classification.bestCategory().contains(CATEGORIES[1-j]))
+	            {
+	            	uncorrect[j]++;
+	            }
+	        } 
+	        System.out.println(CATEGORIES[j] + ":正确总数：" + ncount[j]); 
+	        System.out.println(CATEGORIES[j] + ":错误总数：" + uncorrect[j]); 
+        }
+	}
+}
